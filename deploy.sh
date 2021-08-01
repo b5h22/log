@@ -1,35 +1,29 @@
 #!/usr/bin/env sh
 
-# 오류 발생시 중단한다.
+# abort on errors
 set -e
 
-# 문서(md)를 build하여 html로 만든다. 
-npm run docs:build
+git pull
+git add -A
+git commit -m "$1 $2 $3 --all.sh master"
+git push origin master
 
-# build가 output된 폴더로 이동한다. 
+# build
+npm run docs:build
+# navigate into the build output directory
 cd docs/.vuepress/dist
 
-# https://<USERNAME>.github.io 에 배포하는 경우
-# git clone https://github.com/<USERNAME>/<USERNAME>.github.io/
+# if you are deploying to a custom domain
+# echo 'www.example.com' > CNAME
 
-# https://<USERNAME>.github.io/<REPO> 에 배포하는 경우
-# 필자는 이 경우에 해당한다.
-git clone -b gh-pages https://github.com/b5h22/log/
+git init
+git add -A
+git commit -m 'deploy with vuepress'
 
-# .git의 내용을 복사한 후 clone은 삭제한다.
-cp -rf log/.git ./.git
-rm -rf log
+# if you are deploying to https://<USERNAME>.github.io
+# git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
 
-# 이제 add + commit + push를 차례대로 실행해주면 끝
-# $1은 문자열 인자
-git add .
-git commit -m '$1'
-
-# https://<USERNAME>.github.io/<REPO> 에 배포하는 경우
-# git push origin master
-
-# https://<USERNAME>.github.io/<REPO> 에 배포하는 경우
-# 필자는 이 경우에 해당한다.
-git push origin gh-pages
+# if you are deploying to https://<USERNAME>.github.io/<REPO>
+git push -f git@github.com:b5h22/log.git master:gh-pages
 
 cd -

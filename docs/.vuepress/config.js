@@ -15,7 +15,7 @@ module.exports = {
             title: '21-August',
             collapsable: true,
             children: [
-              '/logbook/21-August/Aug-08',
+              '/logbook/21-August/Aug-09',
             ]
           }
         ],
